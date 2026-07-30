@@ -1,0 +1,21 @@
+# 환경변수
+.env
+
+# 데이터
+data/
+
+# 업로드 제외
+frontend/
+웹사이트/
+최종 구조.txt
+
+# Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# 운영체제
+.DS_Store
+Thumbs.db
