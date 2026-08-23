@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="지역과 조건별 아파트 실거래량을 검색하고 비교하는 데이터 분석 서비스"
+    />
+    <title>집계 | 부동산 실거래가 분석</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="집계 홈">
+          <span class="brand-mark" aria-hidden="true">집</span>
+          <span>
+            <strong>집계</strong>
+            <small>부동산 실거래가 분석</small>
+          </span>
+        </a>
+        <span class="data-source">국토교통부 실거래가 기반</span>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">APARTMENT TRANSACTION ANALYSIS</p>
+        <h1 id="page-title">아파트 거래량을<br />조건별로 한눈에 확인하세요</h1>
+        <p class="hero-description">
+          지역과 면적, 기간을 선택하면 거래가 활발한 아파트를 빠르게 비교할 수 있습니다.
+        </p>
+      </section>
+
+      <section class="search-card" aria-labelledby="search-title">
+        <div class="search-card-heading">
+          <div>
+            <span class="step-number">01</span>
+            <h2 id="search-title">검색 조건 설정</h2>
+          </div>
+          <p>시·군·구까지 선택하면 검색할 수 있어요.</p>
+        </div>
+
+        <form id="search-form" novalidate>
+          <div class="filter-grid">
+            <fieldset class="filter-group region-filter">
+              <legend>
+                <span>지역</span>
+                <em>필수</em>
+              </legend>
+              <p class="filter-hint">찾고 싶은 지역 범위를 선택하세요.</p>
+              <div class="select-stack">
+                <label>
+                  <span>시·도</span>
+                  <select id="city-select" name="city" aria-describedby="region-status"></select>
+                </label>
+                <div class="region-connector" aria-hidden="true"></div>
+                <label>
+                  <span>시·군·구</span>
+                  <select id="district-select" name="district" aria-describedby="region-status"></select>
+                </label>
+                <div class="region-connector" aria-hidden="true"></div>
+                <label>
+                  <span>읍·면·동</span>
+                  <select id="neighborhood-select" name="neighborhood" aria-describedby="region-status"></select>
+                </label>
+              </div>
+              <p id="region-status" class="selection-status" aria-live="polite"></p>
+            </fieldset>
+
+            <fieldset class="filter-group area-filter">
+              <legend><span>전용면적</span></legend>
+              <p class="filter-hint">여러 면적을 함께 선택할 수 있어요.</p>
+              <div id="area-options" class="area-options">
+                <button type="button" class="area-chip" data-area="small" aria-pressed="false">
+                  <span>소형</span><small>40~59㎡</small>
+                </button>
+                <button type="button" class="area-chip is-selected" data-area="medium" aria-pressed="true">
+                  <span>중형</span><small>60~84㎡</small>
+                </button>
+                <button type="button" class="area-chip" data-area="large" aria-pressed="false">
+                  <span>대형</span><small>85~114㎡</small>
+                </button>
+                <button type="button" class="area-chip" data-area="xlarge" aria-pressed="false">
+                  <span>초대형</span><small>115㎡ 이상</small>
+                </button>
+              </div>
+              <p id="area-status" class="selection-status" aria-live="polite">중형 선택됨</p>
+            </fieldset>
+
+            <fieldset class="filter-group period-filter">
+              <legend><span>거래 기간</span></legend>
+              <p class="filter-hint">반기를 선택하면 시작 연도 한 해만 조회해요.</p>
+              <div class="period-selection">
+                <div class="start-period">
+                  <label>
+                    <span>시작 연도</span>
+                    <select id="start-year" name="startYear"></select>
+                  </label>
+                  <div class="half-year-options" aria-label="시작 연도 조회 반기">
+                    <button type="button" class="half-chip" data-half="first" aria-pressed="false">
+                      <span>상반기</span><small>1–6월</small>
+                    </button>
+                    <button type="button" class="half-chip" data-half="second" aria-pressed="false">
+                      <span>하반기</span><small>7–12월</small>
+                    </button>
+                  </div>
+                </div>
+                <span class="range-divider" aria-hidden="true">—</span>
+                <label class="end-year-field">
+                  <span>종료 연도</span>
+                  <select id="end-year" name="endYear"></select>
+                </label>
+              </div>
+              <p id="period-status" class="selection-status" aria-live="polite">2020~2022년 전체 기간</p>
+            </fieldset>
+
+            <div class="search-action">
+              <div class="search-action-copy">
+                <span>조건 설정이 끝났나요?</span>
+                <small>선택한 범위의 거래량을 집계합니다.</small>
+              </div>
+              <button id="search-button" class="primary-button" type="submit">
+                <span>검색하기</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p id="form-error" class="form-error" role="alert"></p>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section id="results-section" class="results-section" aria-labelledby="results-title" hidden>
+        <div class="results-heading">
+          <div>
+            <span class="step-number">02</span>
+            <h2 id="results-title">검색 결과</h2>
+          </div>
+          <span id="result-count" class="result-count"></span>
+        </div>
+
+        <div class="condition-summary">
+          <span class="summary-icon" aria-hidden="true">i</span>
+          <p id="condition-summary"></p>
+        </div>
+
+        <div id="results-content"></div>
+
+        <div class="future-panel" aria-label="향후 제공 예정 기능">
+          <div>
+            <span class="step-number">NEXT</span>
+            <h2>거래 추이를 더 깊이 살펴보세요</h2>
+            <p>기간별 거래량 차트와 단지별 상세 분석 기능이 추가될 예정입니다.</p>
+          </div>
+          <div class="chart-placeholder" aria-hidden="true">
+            <span style="height: 35%"></span>
+            <span style="height: 62%"></span>
+            <span style="height: 48%"></span>
+            <span style="height: 80%"></span>
+            <span style="height: 67%"></span>
+            <span style="height: 92%"></span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>집계</span>
+        <p>본 화면의 데이터는 서비스 시연을 위한 예시 데이터입니다.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
