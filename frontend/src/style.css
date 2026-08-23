@@ -201,14 +201,25 @@ a:focus-visible {
 .filter-grid {
   display: grid;
   grid-template-columns: 1.16fr 1.12fr 1.12fr;
+  padding-top: 22px;
 }
 
 .filter-group {
+  position: relative;
   min-width: 0;
   margin: 0;
   padding: 30px;
   border: 0;
-  border-right: 1px solid var(--line);
+}
+
+.filter-group + .filter-group::before {
+  position: absolute;
+  top: 30px;
+  bottom: 30px;
+  left: 0;
+  width: 1px;
+  background: var(--line);
+  content: "";
 }
 
 .filter-group legend {
@@ -583,16 +594,40 @@ select:disabled {
   background: #f8faff;
 }
 
-.result-table th:first-child {
-  width: 38%;
+.result-table th:nth-child(1) {
+  width: 10%;
 }
 
 .result-table th:nth-child(2) {
-  width: 17%;
+  width: 35%;
 }
 
 .result-table th:nth-child(3) {
-  width: 18%;
+  width: 19%;
+}
+
+.result-table th:nth-child(4) {
+  width: 17%;
+}
+
+.rank-badge {
+  color: #7a8496;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.rank-badge-top {
+  color: var(--primary);
+  font-size: 16px;
+}
+
+.result-table tbody tr.is-top-rank {
+  background: linear-gradient(90deg, rgba(237, 243, 255, 0.9), rgba(255, 255, 255, 0));
+}
+
+.result-table tbody tr.is-top-rank td {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .apartment-link {
@@ -775,8 +810,13 @@ footer {
 
   .filter-group {
     padding: 26px 20px;
+    border-left: 0;
     border-right: 0;
     border-bottom: 1px solid var(--line);
+  }
+
+  .filter-group + .filter-group::before {
+    display: none;
   }
 
   .search-action {
